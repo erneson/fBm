@@ -1,4 +1,4 @@
-# python -B main 32 0.75 42
+# python -B main.py 32 0.75 42
 import sys
 import numpy as np
 from fbm2d import FBM2d
