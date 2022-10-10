@@ -26,10 +26,3 @@ def FBM1d(L, H):
         
     # calculate the fast inverse Fourier transform in 1 dimension for real and imaginary parts of Fourier coefficients
     return np.real(np.fft.ifft(A, n = L // 2))
-
-
-arr = FBM1d(100000, 0.8)
-
-# print(arr)
-
-print(arr.mean())
