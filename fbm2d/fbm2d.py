@@ -1,8 +1,38 @@
 import numpy as np
 
 def FBM2d(L, H):
+    """
+    Compute the two-dimensional fractal motion using Fourier filtering method.
+   
+    This function generate a fractal Brownian motion by spectral representation
+    of random functions, this technique is known as spectral synthesis or 
+    Fourier filtering method.
+    
+    The fractal Brownian motion is obtained from real part of fast inverse 
+    Fourier transform in two-dimensional of Fourier coefficient.
+            
+    Parameters
+    ----------
+    L : int
+        Lenght of array along one dimension.
+    H : float
+        Hurst exponent which determines fractal dimension (0 < H < 1).
+       
+    Returns
+    -------
+    output : float ndarray
+        Real part of Fast inverse Fourier transform in 2 dimensions of Fourier coefficient
+        
+    Notes
+    -----
+    Pseudo code in The Science of Fractal Images book - Barnsley 1988.
+    ALGORITHM SpectralSynthesisFM2D
+    """
+      
     A = np.zeros((L, L), dtype = np.complex128)
 
+    # i, j, i0, j0 = integers
+    # rad, phase = Polar coordinates of Fourier coefficient.
     for i in range(L // 2):
         for j in range(L // 2):
             phase = 2 * np.pi * np.random.random()
@@ -37,4 +67,4 @@ def FBM2d(L, H):
             A[L - j, i] = rad * np.cos(phase) + rad * np.sin(phase) * 1j
             A[j, L - i] = rad * np.cos(phase) - rad * np.sin(phase) * 1j
     
-    return np.real(np.fft.ifft2(A))
+    return np.real(np.fft.ifft2(A)) # Real part of Fourier coefficient.
