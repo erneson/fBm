@@ -21,7 +21,7 @@ def FBM1d(L, H):
     Returns
     -------
     output : float ndarray
-        Fast inverse Fourier transform in 1 dimension of Fourier coefficient
+        Real part of Fast inverse Fourier transform in 1 dimension of Fourier coefficient
         
     Notes
     -----
