@@ -25,20 +25,18 @@ def FBM2d(L, H):
         
     Notes
     -----
-    Pseudo code in The Science of Fractal Images book - Barnsley 1988.
-    ALGORITHM SpectralSynthesisFM2D
+    Pseudo code SpectralSynthesisFM2D in
+    BARNSLEY, Michael F. et al. The science of fractal images. New York: Springer, 1988.
     """
       
     A = np.zeros((L, L), dtype = np.complex128)
-
-    # i, j, i0, j0 = integers
-    # rad, phase = Polar coordinates of Fourier coefficient.
-    for i in range(L // 2):
-        for j in range(L // 2):
-            phase = 2 * np.pi * np.random.random()
+    beta = 2 * H + 2 # Exponent in the spectral density function (2 < beta < 4)
+    for i in range(L // 2 + 1):
+        for j in range(L // 2 + 1):
+            phase = 2 * np.pi * np.random.random() # Polar coordinates of Fourier coefficient
 
             if i != 0 or j != 0:
-                rad = np.random.normal() * (i ** 2 + j ** 2) ** (- (H + 1) / 2)
+                rad = np.random.normal() * (i ** 2 + j ** 2) ** (- (beta / 2) / 2) # Polar coordinates of Fourier coefficient
             else:
                 rad = 0
             
@@ -56,15 +54,15 @@ def FBM2d(L, H):
             
             A[j0, i0] = rad * np.cos(phase) - rad * np.sin(phase) * 1j
     
-    A[0, L//2] = np.real(A[0, L//2]) + 0j
-    A[L//2, 0] = np.real(A[L//2, 0]) + 0j
-    A[L//2, L//2] = np.real(A[L//2, L//2]) + 0j
-    for i in range(1, L // 2 - 1):
-        for j in range(1, L // 2 - 1):
+    A[0, L // 2] = np.real(A[0, L // 2]) + 0j
+    A[L // 2, 0] = np.real(A[L // 2, 0]) + 0j
+    A[L // 2, L // 2] = np.real(A[L // 2, L // 2]) + 0j
+    for i in range(1, L // 2):
+        for j in range(1, L // 2):
             phase = 2 * np.pi * np.random.random()
-            rad = np.random.normal() * (i ** 2 + j ** 2) ** (- (H + 1) / 2)
+            rad = np.random.normal() * (i ** 2 + j ** 2) ** (- (beta / 2) / 2)
 
             A[L - j, i] = rad * np.cos(phase) + rad * np.sin(phase) * 1j
             A[j, L - i] = rad * np.cos(phase) - rad * np.sin(phase) * 1j
     
-    return np.real(np.fft.ifft2(A)) # Real part of Fourier coefficient.
+    return np.real(np.fft.ifft2(A)) # Real part of Fourier coefficient

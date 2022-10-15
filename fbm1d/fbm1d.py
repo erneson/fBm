@@ -25,17 +25,17 @@ def FBM1d(L, H):
         
     Notes
     -----
-    Pseudo code in The Science of Fractal Images book - Barnsley 1988.
-    ALGORITHM SpectralSynthesisFM1D
+    Pseudo code SpectralSynthesisFM1D in
+    BARNSLEY, Michael F. et al. The science of fractal images. New York: Springer, 1988.
     """
     
+    L = 2 * L # workaround because half of the series is lost
+    
     A = np.zeros(L, dtype = np.complex128)
-    
-    beta = 2 * H + 1 # Exponent in the spectral density function (1 < beta < 3).
-    
-    for i in range(L // 2 - 1):
-        rad = np.random.normal() * (i + 1) ** (- beta / 2) # Polar coordinate of Fourier coefficient.
-        phase = 2 * np.pi * np.random.random() # Polar coordinate of Fourier coefficient.
+    beta = 2 * H + 1 # Exponent in the spectral density function (1 < beta < 3)
+    for i in range(L // 2):
+        rad = np.random.normal() * (i + 1) ** (- beta / 2) # Polar coordinate of Fourier coefficient
+        phase = 2 * np.pi * np.random.random() # Polar coordinate of Fourier coefficient
         A[i] = rad * np.cos(phase) + rad * np.sin(phase) * 1j
         
-    return np.real(np.fft.ifft(A, n = L // 2)) # Real part of Fourier coefficient.
+    return np.real(np.fft.ifft(A, n = L // 2)) # Real part of Fourier coefficient
